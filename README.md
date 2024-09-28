@@ -26,3 +26,6 @@ Event Locator est une application web permettant aux utilisateurs de localiser d
 - **Administrateurs** :
   - Gérer les utilisateurs et les événements.
   - Analyser les données d'utilisation pour améliorer la plateforme.
+
+## Formulaire de Soumission des Événements
+Pour soumettre vos événements artistiques, veuillez remplir le formulaire suivant : [Formulaire d'Événements Artistiques](https://docs.google.com/forms/d/e/1FAIpQLSfgFeN0Tfd5uFLn2uH0BbJpNFIzcdWIlGqQYY__a7C9cxdlTw/viewform?usp=pp_url)

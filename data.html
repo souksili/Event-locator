@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localisateur d'Événements Artistiques</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="leaflet/leaflet.css" />
+</head>
+<body>
+    <header>
+        <h1>Localisateur d'Événements</h1>
+    </header>
+    
+    <div id="filters">
+        <label for="category-filter">Catégorie :</label>
+        <select id="category-filter" onchange="filterEvents()">
+            <option value="">Toutes</option>
+            <option value="Art">Art</option>
+            <option value="Musique">Musique</option>
+            <option value="Histoire">Histoire</option>
+            <option value="Conférence">Conférence</option>
+            <option value="Atelier">Atelier</option>
+        </select>        
+
+        <label for="date-filter">Date :</label>
+        <input type="date" id="date-filter" onchange="filterEvents()">
+    </div>
+
+    <div id="qr-code-section">
+        <h2>Remplissez rapidement le formulaire :</h2>
+        <img src="frame.png" alt="QR Code Formulaire">
+    </div>
+
+    <div id="map" style="height: 600px;"></div>
+
+    <script src="leaflet/leaflet.js"></script>
+    <script src="scripts/csv.js"></script>
+    <script src="scripts/map.js"></script>
+    <script src="scripts/search.js"></script>
+</body>
+</html>

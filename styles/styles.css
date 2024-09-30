@@ -18,3 +18,21 @@ h1 {
 #filters label {
     margin: 0 10px;
 }
+
+/* Style pour la section du QR code */
+#qr-code-section {
+    text-align: center;
+    margin: 20px;
+}
+
+#qr-code-section h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+#qr-code-section img {
+    border: 2px solid #ddd;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}

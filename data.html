@@ -25,16 +25,14 @@
         <input type="date" id="date-filter" onchange="filterEvents()">
     </div>
 
-    <!-- QR Code Section -->
-    <div id="qr-code-section">
+    <!-- Section du QR Code ajoutée -->
+    <div id="qr-code-section" style="text-align: center; margin: 20px;">
         <h2>Remplissez rapidement le formulaire :</h2>
-        <a href="fr.qr-code-generator.com/" border="0" style="cursor:default" rel="nofollow">
-            <img src="https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfgFeN0Tfd5uFLn2uH0BbJpNFIzcdWIlGqQYY__a7C9cxdlTw%2Fviewform%3Fpli%3D1&chs=180x180&choe=UTF-8&chld=L|2" alt="QR Code Formulaire">
-        </a>
+        <img src="frame.png" alt="QR Code Formulaire" style="border: 2px solid #ddd; padding: 10px; background-color: #f9f9f9; border-radius: 10px;">
     </div>
 
     <div id="map" style="height: 600px;"></div>
-    
+
     <script src="leaflet/leaflet.js"></script>
     <script src="scripts/csv.js"></script>
     <script src="scripts/map.js"></script>

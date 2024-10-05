@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var categoryElement = document.getElementById('category-filter');
     var dateElement = document.getElementById('date-filter');
 
+    // Vérification si les éléments existent avant d'ajouter des écouteurs d'événements
     if (categoryElement && dateElement) {
         categoryElement.addEventListener('change', filterEvents);
         dateElement.addEventListener('change', filterEvents);
@@ -17,6 +18,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function displayTable(events) {
     var tableBody = document.querySelector('#events-table tbody');
+    console.log('Table body:', tableBody); // Vérification du tableau
+    console.log('Events data:', events); // Vérification des données
+
+    if (!tableBody) {
+        console.error('Erreur: tableBody est null.');
+        return; // Sortir de la fonction si tableBody est null
+    }
+
     tableBody.innerHTML = '';
 
     events.forEach(event => {
@@ -24,10 +33,9 @@ function displayTable(events) {
 
         row.innerHTML = `
             <td>${event.title}</td>
-            <td>${event.address}</td>
-            <td>${event.description}</td>
-            <td>${event.category}</td>
             <td>${event.date}</td>
+            <td>${event.category}</td>
+            <td>${event.description}</td>
         `;
 
         tableBody.appendChild(row);

@@ -7,6 +7,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var markers = L.layerGroup().addTo(map);
 
+// Charger les événements
 loadCSV().then(events => {
     events.forEach(event => {
         var lat = event.lat;
@@ -26,20 +27,22 @@ loadCSV().then(events => {
                 </div>
             `;
             
+            // Créer le marqueur et attacher le popup
             var marker = L.marker([lat, lng])
-                .bindPopup(popupContent)
-                .openPopup();
+                .bindPopup(popupContent);
 
             markers.addLayer(marker);
         } else {
             console.error(`Coordonnées invalides pour l'événement : ${event.title}. Lat : ${lat}, Lng : ${lng}`);
         }
     });
+
+    // Aucune manipulation de DOM supplémentaire nécessaire ici
 }).catch(error => {
     console.error('Erreur lors du chargement des événements:', error);
 });
 
-// La fonction addToCalendar reste inchangée
+// Fonction pour ajouter un événement au calendrier
 function addToCalendar(title, date, description) {
     var eventDate = new Date(date);
     var startDate = eventDate.toISOString().replace(/-|:|\.\d+/g, '');
@@ -49,3 +52,8 @@ function addToCalendar(title, date, description) {
     
     window.open(calendarUrl, '_blank');
 }
+
+// Initialiser la carte une fois la page chargée
+document.addEventListener('DOMContentLoaded', function() {
+    map.invalidateSize(); // Ajuster la taille de la carte si nécessaire
+});

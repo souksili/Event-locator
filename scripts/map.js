@@ -39,6 +39,7 @@ loadCSV().then(events => {
     console.error('Erreur lors du chargement des événements:', error);
 });
 
+// La fonction addToCalendar reste inchangée
 function addToCalendar(title, date, description) {
     var eventDate = new Date(date);
     var startDate = eventDate.toISOString().replace(/-|:|\.\d+/g, '');

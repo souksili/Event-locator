@@ -43,6 +43,22 @@
 
     <div class="container my-4">
         <h2 class="text-center">Liste des Événements</h2>
+        
+        <div class="form-group">
+            <label for="category-filter">Filtrer par catégorie :</label>
+            <select id="category-filter" class="form-control">
+                <option value="">Toutes les catégories</option>
+                <option value="Musique">Musique</option>
+                <option value="Théâtre">Théâtre</option>
+                <option value="Sport">Sport</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date-filter">Filtrer par date :</label>
+            <input type="date" id="date-filter" class="form-control">
+        </div>
+
         <table class="table table-striped" id="events-table">
             <thead>
                 <tr>
@@ -50,10 +66,10 @@
                     <th>Date</th>
                     <th>Catégorie</th>
                     <th>Description</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Remplacez avec le contenu dynamique -->
             </tbody>
         </table>
     </div>

@@ -22,6 +22,7 @@ loadCSV().then(events => {
                     <p><strong>Description:</strong> ${event.description}</p>
                     <p><strong>Catégorie:</strong> ${event.category}</p>
                     <p><strong>Date:</strong> ${event.date}</p>
+                    <button class="btn btn-primary" onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')">Ajouter au calendrier</button>
                 </div>
             `;
             
@@ -37,3 +38,13 @@ loadCSV().then(events => {
 }).catch(error => {
     console.error('Erreur lors du chargement des événements:', error);
 });
+
+function addToCalendar(title, date, description) {
+    var eventDate = new Date(date);
+    var startDate = eventDate.toISOString().replace(/-|:|\.\d+/g, '');
+    var endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, ''); 
+
+    var calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}`;
+    
+    window.open(calendarUrl, '_blank');
+}

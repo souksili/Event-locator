@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var categoryElement = document.getElementById('category-filter');
     var dateElement = document.getElementById('date-filter');
 
-    // Vérification si les éléments existent avant d'ajouter des écouteurs d'événements
     if (categoryElement && dateElement) {
         categoryElement.addEventListener('change', filterEvents);
         dateElement.addEventListener('change', filterEvents);
@@ -18,12 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function displayTable(events) {
     var tableBody = document.querySelector('#events-table tbody');
-    console.log('Table body:', tableBody); // Vérification du tableau
-    console.log('Events data:', events); // Vérification des données
-
+    
     if (!tableBody) {
         console.error('Erreur: tableBody est null.');
-        return; // Sortir de la fonction si tableBody est null
+        return;
     }
 
     tableBody.innerHTML = '';
@@ -36,10 +33,21 @@ function displayTable(events) {
             <td>${event.date}</td>
             <td>${event.category}</td>
             <td>${event.description}</td>
+            <td><button class="btn btn-primary" onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')">Ajouter au calendrier</button></td>
         `;
 
         tableBody.appendChild(row);
     });
+}
+
+function addToCalendar(title, date, description) {
+    var eventDate = new Date(date);
+    var startDate = eventDate.toISOString().replace(/-|:|\.\d+/g, '');
+    var endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, ''); 
+
+    var calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}`;
+    
+    window.open(calendarUrl, '_blank');
 }
 
 function filterEvents() {

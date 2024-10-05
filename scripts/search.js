@@ -23,7 +23,6 @@ function displayEvents(events) {
         var lng = event.lng;
 
         if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
-            console.log(`Ajout du marqueur pour l'événement : ${event.title} à (${lat}, ${lng})`);
 
             var popupContent = `
                 <div style="min-width: 150px;">
@@ -32,8 +31,10 @@ function displayEvents(events) {
                     <p><strong>Description:</strong> ${event.description}</p>
                     <p><strong>Catégorie:</strong> ${event.category}</p>
                     <p><strong>Date:</strong> ${event.date}</p>
-                </div>
-            `;
+                    <button onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')" 
+                            style="background-color: transparent; border: none; cursor: pointer;">
+                        <i class="fa fa-calendar" aria-hidden="true"></i> Ajouter au calendrier
+                </div>`;
             
             var marker = L.marker([lat, lng])
                 .bindPopup(popupContent)

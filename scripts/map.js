@@ -7,9 +7,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var markers = L.layerGroup().addTo(map);
 
-// Charger les événements
 loadCSV().then(events => {
-    events.forEach(event => {
+    const uniqueEvents = events;
+
+    uniqueEvents.forEach(event => {
         var lat = event.lat;
         var lng = event.lng;
 
@@ -23,37 +24,29 @@ loadCSV().then(events => {
                     <p><strong>Description:</strong> ${event.description}</p>
                     <p><strong>Catégorie:</strong> ${event.category}</p>
                     <p><strong>Date:</strong> ${event.date}</p>
-                    <button class="btn btn-primary" onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')">Ajouter au calendrier</button>
-                </div>
-            `;
-            
-            // Créer le marqueur et attacher le popup
-            var marker = L.marker([lat, lng])
-                .bindPopup(popupContent);
+                    <button onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')" 
+                            style="background-color: transparent; border: none; cursor: pointer;">
+                        <i class="fa fa-calendar" aria-hidden="true"></i> Ajouter au calendrier
+                </div>`;
 
-            markers.addLayer(marker);
+            var marker = L.marker([lat, lng])
+                .bindPopup(popupContent)
+                .addTo(markers);
         } else {
             console.error(`Coordonnées invalides pour l'événement : ${event.title}. Lat : ${lat}, Lng : ${lng}`);
         }
     });
-
-    // Aucune manipulation de DOM supplémentaire nécessaire ici
 }).catch(error => {
     console.error('Erreur lors du chargement des événements:', error);
 });
 
-// Fonction pour ajouter un événement au calendrier
+
 function addToCalendar(title, date, description) {
     var eventDate = new Date(date);
     var startDate = eventDate.toISOString().replace(/-|:|\.\d+/g, '');
-    var endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, ''); 
+    var endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, '');
 
     var calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}`;
     
     window.open(calendarUrl, '_blank');
 }
-
-// Initialiser la carte une fois la page chargée
-document.addEventListener('DOMContentLoaded', function() {
-    map.invalidateSize(); // Ajuster la taille de la carte si nécessaire
-});

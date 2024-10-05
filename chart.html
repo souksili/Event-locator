@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Localisateur d'Événements</title>
+    <title>Graphique des Événements</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="leaflet/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -43,36 +43,14 @@
     </header>
 
     <div class="container my-4">
-        <div id="filters" class="form-inline justify-content-center mb-4">
-            <label for="category-filter" class="mr-2">Catégorie :</label>
-            <select id="category-filter" class="form-control mr-3" onchange="filterEvents()">
-                <option value="">Toutes</option>
-                <option value="Art">Art</option>
-                <option value="Musique">Musique</option>
-                <option value="Histoire">Histoire</option>
-                <option value="Conférence">Conférence</option>
-                <option value="Atelier">Atelier</option>
-            </select>
-
-            <label for="date-filter" class="mr-2">Date :</label>
-            <input type="date" id="date-filter" class="form-control" onchange="filterEvents()">
+        <h2 class="text-center">Graphique des Événements</h2>
+        <div id="chart-container" class="text-center">
+            <canvas id="eventsChart" width="400" height="200"></canvas>
         </div>
-
-        <div id="qr-code-section" class="text-center mb-4">
-            <h3>Remplissez rapidement le formulaire :</h3>
-            <img src="frame.png" alt="QR Code Formulaire" class="img-fluid border border-secondary rounded">
-        </div>
-
-        <div id="map" class="border rounded" style="height: 600px;"></div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="leaflet/leaflet.js"></script>
     <script src="scripts/csv.js"></script>
-    <script src="scripts/map.js"></script>
-    <script src="scripts/search.js"></script>
+    <script src="scripts/chart.js"></script>
 </body>
 
 </html>

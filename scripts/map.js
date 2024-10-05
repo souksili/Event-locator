@@ -24,9 +24,7 @@ loadCSV().then(events => {
                     <p><strong>Description:</strong> ${event.description}</p>
                     <p><strong>Catégorie:</strong> ${event.category}</p>
                     <p><strong>Date:</strong> ${event.date}</p>
-                    <button onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')" 
-                            style="background-color: transparent; border: none; cursor: pointer;">
-                        <i class="fa fa-calendar" aria-hidden="true"></i> Ajouter au calendrier
+                    <button class="btn btn-primary" onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')">Ajouter au calendrier</button>
                 </div>`;
 
             var marker = L.marker([lat, lng])

@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var categoryElement = document.getElementById('category-filter');
-    var dateElement = document.getElementById('date-filter');
+    var categoryElement = d3.select('#category-filter');
+    var dateElement = d3.select('#date-filter');
 
-    if (categoryElement && dateElement) {
-        categoryElement.addEventListener('change', filterEvents);
-        dateElement.addEventListener('change', filterEvents);
+    if (!categoryElement.empty() && !dateElement.empty()) {
+        categoryElement.on('change', filterEvents);
+        dateElement.on('change', filterEvents);
     }
 
     loadCSV().then(events => {
@@ -16,28 +16,32 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function displayTable(events) {
-    var tableBody = document.querySelector('#events-table tbody');
+    var tableBody = d3.select('#events-table tbody');
     
-    if (!tableBody) {
+    if (tableBody.empty()) {
         console.error('Erreur: tableBody est null.');
         return;
     }
 
-    tableBody.innerHTML = '';
+    tableBody.selectAll('tr').remove();
 
-    events.forEach(event => {
-        var row = document.createElement('tr');
+    var rows = tableBody.selectAll('tr')
+        .data(events)
+        .enter()
+        .append('tr');
 
-        row.innerHTML = `
-            <td>${event.title}</td>
-            <td>${event.date}</td>
-            <td>${event.category}</td>
-            <td>${event.description}</td>
-            <td><button class="btn btn-primary" onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')">Ajouter au calendrier</button></td>
-        `;
+    rows.append('td').text(d => d.title);
+    rows.append('td').text(d => d.date);
+    rows.append('td').text(d => d.category);
+    rows.append('td').text(d => d.description);
 
-        tableBody.appendChild(row);
-    });
+    rows.append('td')
+        .append('button')
+        .attr('class', 'btn btn-primary')
+        .text('Ajouter au calendrier')
+        .on('click', function(event, d) {
+            addToCalendar(d.title, d.date, d.description);
+        });
 }
 
 function addToCalendar(title, date, description) {
@@ -51,8 +55,8 @@ function addToCalendar(title, date, description) {
 }
 
 function filterEvents() {
-    var selectedCategory = document.getElementById('category-filter').value;
-    var selectedDate = document.getElementById('date-filter').value;
+    var selectedCategory = d3.select('#category-filter').property('value');
+    var selectedDate = d3.select('#date-filter').property('value');
 
     var filteredEvents = window.eventsData.filter(event => {
         var eventDate = new Date(event.date);

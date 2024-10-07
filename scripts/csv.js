@@ -1,16 +1,22 @@
 async function loadCSV() {
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTDBCOZ3SKCJBa0EcDkvmjhJJATO-6Gqfq1qREJTzIT1MkEf3F3NueAX3MN7VtRgJx21_FCT5K7F8dd/pub?output=csv';
+    
+    try {
+        const response = await fetch(csvUrl);
+        const data = await response.text();
+        const rows = data.split('\n').slice(1);
 
-    d3.csv(csvUrl).then(async function (data) {
-        const events = await Promise.all(data.map(async (row) => {
-            const [day, month, year] = row["Date"].split('/');
+        const events = await Promise.all(rows.map(async (row) => {
+            const cols = row.split(',').map(col => col.trim());
+
+            const [day, month, year] = cols[5].split('/');
             const formattedDate = `${year}-${month}-${day}`;
 
             const event = {
-                title: row["Titre"],
-                address: row["Adresse"],
-                description: row["Description"],
-                category: row["Catégorie"],
+                title: cols[1],
+                address: cols[2],
+                description: cols[3],
+                category: cols[4],
                 date: formattedDate,
                 lat: null,
                 lng: null
@@ -36,7 +42,10 @@ async function loadCSV() {
             return event;
         }));
 
-    });
+        return events;
+    } catch (error) {
+        console.error('Erreur lors du chargement du fichier CSV:', error);
+    }
 }
 
 function geocodeAddress(address) {

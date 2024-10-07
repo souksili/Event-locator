@@ -1,5 +1,5 @@
 # Event Locator
-
+TOTO
 ## Description
 Event Locator est une application web permettant aux utilisateurs de localiser des événements artistiques sur une carte interactive. Les utilisateurs peuvent visualiser des ateliers, des expositions et d'autres événements en entrant des critères de recherche tels que la catégorie et la date.
 

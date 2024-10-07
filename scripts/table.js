@@ -27,6 +27,8 @@ function displayTable(events) {
 
     events.forEach(event => {
         var row = document.createElement('tr');
+        var eventDetails = `title=${encodeURIComponent(event.title)}&date=${encodeURIComponent(event.date)}&category=${encodeURIComponent(event.category)}&description=${encodeURIComponent(event.description)}`;
+
 
         row.innerHTML = `
             <td>${event.title}</td>
@@ -34,6 +36,8 @@ function displayTable(events) {
             <td>${event.category}</td>
             <td>${event.description}</td>
             <td><button class="btn btn-primary" onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')">Ajouter au calendrier</button></td>
+            <td><a href="event.html?${eventDetails}" class="btn btn-info">Details</a></td>
+
         `;
 
         tableBody.appendChild(row);

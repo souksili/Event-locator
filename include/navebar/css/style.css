@@ -1,0 +1,13 @@
+
+    /* Example navbar styling */
+.navbar {
+    background-color: #333; /* Dark background for contrast */
+    padding: 15px;
+}
+
+/* Make all text inside the navbar white */
+.navbar a, .navbar h1, .navbar p {
+    color: white;
+    text-decoration: none; /* Remove underline from links */
+    margin: 0 15px;
+}

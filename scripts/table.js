@@ -35,8 +35,9 @@ function displayTable(events) {
             <td>${event.date}</td>
             <td>${event.category}</td>
             <td>${event.description}</td>
-            <td><button class="btn btn-primary" onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')">Ajouter au calendrier</button></td>
             <td><a href="event.html?${eventDetails}" class="btn btn-info">Details</a></td>
+
+            <td><a class="btn btn-primary" onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')">calendrier</a></td>
 
         `;
 

@@ -14,7 +14,7 @@
     // Get event details from the URL
     var eventDetails = getUrlParams();
 
-    console.log(eventDetails); // Check if data is correctly parsed from URL
+    // console.log(eventDetails); // Check if data is correctly parsed from URL
 
     // Display event details
     document.getElementById('event-title').textContent = eventDetails.title || 'No title';

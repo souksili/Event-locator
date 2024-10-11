@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function displayTable(events) {
     var tableBody = document.querySelector('#events-table tbody');
+
+    console.log("im here")
     
     if (!tableBody) {
         console.error('Erreur: tableBody est null.');
@@ -26,21 +28,27 @@ function displayTable(events) {
     tableBody.innerHTML = '';
 
     events.forEach(event => {
+        // Handle potential undefined or invalid fields
+        const title = event.title || 'No title';
+        const date = event.date || 'No date';  // Replace 'No date' with null or '' if necessary
+        const category = event.category || 'No category';
+        const description = event.description || 'No description';
+
+        // Construct the query string with encoded details
+        var eventDetails = `title=${encodeURIComponent(title)}&date=${encodeURIComponent(date)}&category=${encodeURIComponent(category)}&description=${encodeURIComponent(description)}`;
+
+        // Create a new table row
         var row = document.createElement('tr');
-        var eventDetails = `title=${encodeURIComponent(event.title)}&date=${encodeURIComponent(event.date)}&category=${encodeURIComponent(event.category)}&description=${encodeURIComponent(event.description)}`;
-
-
         row.innerHTML = `
-            <td>${event.title}</td>
-            <td>${event.date}</td>
-            <td>${event.category}</td>
-            <td>${event.description}</td>
-            <td><a href="event.html?${eventDetails}" class="btn btn-info">Details</a></td>
+        <td>${title}</td>
+        <td>${date}</td>
+        <td>${category}</td>
+        <td>${description}</td>
+        <td><a href="event.html?${eventDetails}" class="btn btn-info">Details</a></td>
+        <td><a class="btn btn-primary" onclick="addToCalendar('${title}', '${date}', '${description}')">calendrier</a></td>
+    `;
 
-            <td><a class="btn btn-primary" onclick="addToCalendar('${event.title}', '${event.date}', '${event.description}')">calendrier</a></td>
-
-        `;
-
+        // Append the row to the table body
         tableBody.appendChild(row);
     });
 }

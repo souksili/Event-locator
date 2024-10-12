@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var categoryElement = document.getElementById('category-filter');
-    var dateElement = document.getElementById('date-filter');
+    var categoryElement = d3.select('#category-filter');
+    var dateElement = d3.select('#date-filter');
 
-    if (categoryElement && dateElement) {
-        categoryElement.addEventListener('change', filterEvents);
-        dateElement.addEventListener('change', filterEvents);
-    }
+    categoryElement.on('change', filterEvents);
+    dateElement.on('change', filterEvents);
 
     loadCSV().then(events => {
         window.eventsData = events;
@@ -23,7 +21,6 @@ function displayEvents(events) {
         var lng = event.lng;
 
         if (lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng)) {
-
             var popupContent = `
                 <div style="min-width: 150px;">
                     <h3>${event.title}</h3>
@@ -46,24 +43,28 @@ function displayEvents(events) {
 }
 
 function filterEvents() {
-    var categoryElement = document.getElementById('category-filter');
-    var dateElement = document.getElementById('date-filter');
-    
-    var selectedCategory = categoryElement.value;
-    var selectedDate = dateElement.value;
+    var selectedCategory = d3.select('#category-filter').property('value');
+    var selectedDate = d3.select('#date-filter').property('value');
 
     var filteredEvents = window.eventsData.filter(event => {
         var eventDate = new Date(event.date);
         var filterDate = new Date(selectedDate);
 
         var isCategoryMatch = (selectedCategory === '' || event.category === selectedCategory);
-
         var isDateMatch = (!selectedDate || (eventDate.toISOString().split('T')[0] === filterDate.toISOString().split('T')[0]));
-
-        console.log(`Event: ${event.title}, Category Match: ${isCategoryMatch}, Date Match: ${isDateMatch}`);
 
         return isCategoryMatch && isDateMatch;
     });
 
     displayEvents(filteredEvents);
+}
+
+function addToCalendar(title, date, description) {
+    var eventDate = new Date(date);
+    var startDate = eventDate.toISOString().replace(/-|:|\.\d+/g, '');
+    var endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, '');
+
+    var calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}`;
+    
+    window.open(calendarUrl, '_blank');
 }

@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var categoryElement = document.getElementById('category-filter');
-    var dateElement = document.getElementById('date-filter');
+    var categoryElement = d3.select('#category-filter');
+    var dateElement = d3.select('#date-filter');
 
-    if (categoryElement && dateElement) {
-        categoryElement.addEventListener('change', filterEvents);
-        dateElement.addEventListener('change', filterEvents);
+    if (!categoryElement.empty() && !dateElement.empty()) {
+        categoryElement.on('change', filterEvents);
+        dateElement.on('change', filterEvents);
     }
 
     loadCSV().then(events => {
@@ -16,47 +16,41 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function displayTable(events) {
-    var tableBody = document.querySelector('#events-table tbody');
+    var tableBody = d3.select('#events-table tbody');
 
-    console.log("im here")
-    
-    if (!tableBody) {
+    if (tableBody.empty()) {
         console.error('Erreur: tableBody est null.');
         return;
     }
 
-    tableBody.innerHTML = '';
+    tableBody.html('');
 
     events.forEach(event => {
-        // Handle potential undefined or invalid fields
         const title = event.title || 'No title';
-        const date = event.date || 'No date';  // Replace 'No date' with null or '' if necessary
+        const email = event.email || 'No email';
+        const date = event.date || 'No date';
         const category = event.category || 'No category';
         const description = event.description || 'No description';
 
-        // Construct the query string with encoded details
         var eventDetails = `title=${encodeURIComponent(title)}&date=${encodeURIComponent(date)}&category=${encodeURIComponent(category)}&description=${encodeURIComponent(description)}`;
 
-        // Create a new table row
-        var row = document.createElement('tr');
-        row.innerHTML = `
-        <td>${title}</td>
-        <td>${date}</td>
-        <td>${category}</td>
-        <td>${description}</td>
-        <td><a href="event.html?${eventDetails}" class="btn btn-info">Details</a></td>
-        <td><a class="btn btn-primary" onclick="addToCalendar('${title}', '${date}', '${description}')">calendrier</a></td>
-    `;
-
-        // Append the row to the table body
-        tableBody.appendChild(row);
+        var row = tableBody.append('tr');
+        row.html(`
+            <td>${email}</td>
+            <td>${title}</td>
+            <td>${date}</td>
+            <td>${category}</td>
+            <td>
+                <a href="event.html?${eventDetails}" class="btn btn-info">Détails</a>
+            </td>
+        `);
     });
 }
 
 function addToCalendar(title, date, description) {
     var eventDate = new Date(date);
     var startDate = eventDate.toISOString().replace(/-|:|\.\d+/g, '');
-    var endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, ''); 
+    var endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, '');
 
     var calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}`;
     
@@ -64,8 +58,8 @@ function addToCalendar(title, date, description) {
 }
 
 function filterEvents() {
-    var selectedCategory = document.getElementById('category-filter').value;
-    var selectedDate = document.getElementById('date-filter').value;
+    var selectedCategory = d3.select('#category-filter').property('value');
+    var selectedDate = d3.select('#date-filter').property('value');
 
     var filteredEvents = window.eventsData.filter(event => {
         var eventDate = new Date(event.date);

@@ -16,7 +16,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function displayTable(events) {
+<<<<<<< HEAD
     var tableBody = d3.select('#events-table tbody');
+=======
+    var tableBody = document.querySelector('#events-table tbody');
+
+    console.log("im here")
+>>>>>>> origin/dev
     
     if (tableBody.empty()) {
         console.error('Erreur: tableBody est null.');
@@ -25,6 +31,7 @@ function displayTable(events) {
 
     tableBody.selectAll('tr').remove();
 
+<<<<<<< HEAD
     var rows = tableBody.selectAll('tr')
         .data(events)
         .enter()
@@ -42,6 +49,32 @@ function displayTable(events) {
         .on('click', function(event, d) {
             addToCalendar(d.title, d.date, d.description);
         });
+=======
+    events.forEach(event => {
+        // Handle potential undefined or invalid fields
+        const title = event.title || 'No title';
+        const date = event.date || 'No date';  // Replace 'No date' with null or '' if necessary
+        const category = event.category || 'No category';
+        const description = event.description || 'No description';
+
+        // Construct the query string with encoded details
+        var eventDetails = `title=${encodeURIComponent(title)}&date=${encodeURIComponent(date)}&category=${encodeURIComponent(category)}&description=${encodeURIComponent(description)}`;
+
+        // Create a new table row
+        var row = document.createElement('tr');
+        row.innerHTML = `
+        <td>${title}</td>
+        <td>${date}</td>
+        <td>${category}</td>
+        <td>${description}</td>
+        <td><a href="event.html?${eventDetails}" class="btn btn-info">Details</a></td>
+        <td><a class="btn btn-primary" onclick="addToCalendar('${title}', '${date}', '${description}')">calendrier</a></td>
+    `;
+
+        // Append the row to the table body
+        tableBody.appendChild(row);
+    });
+>>>>>>> origin/dev
 }
 
 function addToCalendar(title, date, description) {

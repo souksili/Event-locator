@@ -16,71 +16,41 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function displayTable(events) {
-<<<<<<< HEAD
     var tableBody = d3.select('#events-table tbody');
-=======
-    var tableBody = document.querySelector('#events-table tbody');
 
-    console.log("im here")
->>>>>>> origin/dev
-    
     if (tableBody.empty()) {
         console.error('Erreur: tableBody est null.');
         return;
     }
 
-    tableBody.selectAll('tr').remove();
+    tableBody.html('');
 
-<<<<<<< HEAD
-    var rows = tableBody.selectAll('tr')
-        .data(events)
-        .enter()
-        .append('tr');
-
-    rows.append('td').text(d => d.title);
-    rows.append('td').text(d => d.date);
-    rows.append('td').text(d => d.category);
-    rows.append('td').text(d => d.description);
-
-    rows.append('td')
-        .append('button')
-        .attr('class', 'btn btn-primary')
-        .text('Ajouter au calendrier')
-        .on('click', function(event, d) {
-            addToCalendar(d.title, d.date, d.description);
-        });
-=======
     events.forEach(event => {
-        // Handle potential undefined or invalid fields
         const title = event.title || 'No title';
-        const date = event.date || 'No date';  // Replace 'No date' with null or '' if necessary
+        const email = event.email || 'No email';
+        const date = event.date || 'No date';
         const category = event.category || 'No category';
         const description = event.description || 'No description';
 
-        // Construct the query string with encoded details
         var eventDetails = `title=${encodeURIComponent(title)}&date=${encodeURIComponent(date)}&category=${encodeURIComponent(category)}&description=${encodeURIComponent(description)}`;
 
-        // Create a new table row
-        var row = document.createElement('tr');
-        row.innerHTML = `
-        <td>${title}</td>
-        <td>${date}</td>
-        <td>${category}</td>
-        <td>${description}</td>
-        <td><a href="event.html?${eventDetails}" class="btn btn-info">Details</a></td>
-        <td><a class="btn btn-primary" onclick="addToCalendar('${title}', '${date}', '${description}')">calendrier</a></td>
-    `;
-
-        // Append the row to the table body
-        tableBody.appendChild(row);
+        var row = tableBody.append('tr');
+        row.html(`
+            <td>${email}</td>
+            <td>${title}</td>
+            <td>${date}</td>
+            <td>${category}</td>
+            <td>
+                <a href="event.html?${eventDetails}" class="btn btn-info">Détails</a>
+            </td>
+        `);
     });
->>>>>>> origin/dev
 }
 
 function addToCalendar(title, date, description) {
     var eventDate = new Date(date);
     var startDate = eventDate.toISOString().replace(/-|:|\.\d+/g, '');
-    var endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, ''); 
+    var endDate = new Date(eventDate.getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, '');
 
     var calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}`;
     
